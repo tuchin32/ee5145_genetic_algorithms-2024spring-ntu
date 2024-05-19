@@ -1,0 +1,120 @@
+problem size: 500
+initial population size: 12430
+selection pressure: 2
+crossover probability: 1.000000
+mutation probability: 0.000000
+max generation: -1
+max number of function evaluation: -1
+repeat: 1
+selection type: TOURNAMENT
+crossover type: ONEPOINT
+==========================================================
+Gen: 0 Mean:      nan, Std:      nan, Mean_next: 256.165245, Selection Intensity:      nan
+Gen: 1 Mean: 256.165245, Std: 9.998152, Mean_next: 261.794288, Selection Intensity: 0.563008
+Gen: 2 Mean: 261.794288, Std: 9.284001, Mean_next: 267.019710, Selection Intensity: 0.562842
+Gen: 3 Mean: 267.019710, Std: 8.863305, Mean_next: 271.997908, Selection Intensity: 0.561664
+Gen: 4 Mean: 271.997908, Std: 8.511778, Mean_next: 276.786404, Selection Intensity: 0.562573
+Gen: 5 Mean: 276.786404, Std: 8.262448, Mean_next: 281.419228, Selection Intensity: 0.560708
+Gen: 6 Mean: 281.419228, Std: 8.143081, Mean_next: 285.995495, Selection Intensity: 0.561982
+Gen: 7 Mean: 285.995495, Std: 8.006955, Mean_next: 290.521158, Selection Intensity: 0.565217
+Gen: 8 Mean: 290.521158, Std: 7.841203, Mean_next: 294.934996, Selection Intensity: 0.562903
+Gen: 9 Mean: 294.934996, Std: 7.601348, Mean_next: 299.199517, Selection Intensity: 0.561022
+Gen:10 Mean: 299.199517, Std: 7.479041, Mean_next: 303.400000, Selection Intensity: 0.561634
+Gen:11 Mean: 303.400000, Std: 7.434667, Mean_next: 307.596380, Selection Intensity: 0.564434
+Gen:12 Mean: 307.596380, Std: 7.292498, Mean_next: 311.715849, Selection Intensity: 0.564891
+Gen:13 Mean: 311.715849, Std: 7.260792, Mean_next: 315.815366, Selection Intensity: 0.564610
+Gen:14 Mean: 315.815366, Std: 7.150993, Mean_next: 319.844811, Selection Intensity: 0.563480
+Gen:15 Mean: 319.844811, Std: 7.210465, Mean_next: 323.911746, Selection Intensity: 0.564032
+Gen:16 Mean: 323.911746, Std: 7.246661, Mean_next: 328.014803, Selection Intensity: 0.566200
+Gen:17 Mean: 328.014803, Std: 7.191929, Mean_next: 332.084393, Selection Intensity: 0.565855
+Gen:18 Mean: 332.084393, Std: 7.093562, Mean_next: 336.101448, Selection Intensity: 0.566296
+Gen:19 Mean: 336.101448, Std: 6.994625, Mean_next: 340.019469, Selection Intensity: 0.560147
+Gen:20 Mean: 340.019469, Std: 6.930568, Mean_next: 343.934352, Selection Intensity: 0.564872
+Gen:21 Mean: 343.934352, Std: 6.840549, Mean_next: 347.756154, Selection Intensity: 0.558698
+Gen:22 Mean: 347.756154, Std: 6.788779, Mean_next: 351.571038, Selection Intensity: 0.561940
+Gen:23 Mean: 351.571038, Std: 6.644936, Mean_next: 355.314401, Selection Intensity: 0.563341
+Gen:24 Mean: 355.314401, Std: 6.566887, Mean_next: 359.050201, Selection Intensity: 0.568885
+Gen:25 Mean: 359.050201, Std: 6.401294, Mean_next: 362.660740, Selection Intensity: 0.564033
+Gen:26 Mean: 362.660740, Std: 6.348820, Mean_next: 366.256637, Selection Intensity: 0.566388
+Gen:27 Mean: 366.256637, Std: 6.189468, Mean_next: 369.722124, Selection Intensity: 0.559901
+Gen:28 Mean: 369.722124, Std: 6.063861, Mean_next: 373.151810, Selection Intensity: 0.565594
+Gen:29 Mean: 373.151810, Std: 5.963920, Mean_next: 376.499598, Selection Intensity: 0.561340
+Gen:30 Mean: 376.499598, Std: 5.932047, Mean_next: 379.817216, Selection Intensity: 0.559270
+Gen:31 Mean: 379.817216, Std: 5.886160, Mean_next: 383.129043, Selection Intensity: 0.562646
+Gen:32 Mean: 383.129043, Std: 5.844988, Mean_next: 386.425664, Selection Intensity: 0.564008
+Gen:33 Mean: 386.425664, Std: 5.645827, Mean_next: 389.621400, Selection Intensity: 0.566035
+Gen:34 Mean: 389.621400, Std: 5.565599, Mean_next: 392.742719, Selection Intensity: 0.560824
+Gen:35 Mean: 392.742719, Std: 5.511790, Mean_next: 395.837329, Selection Intensity: 0.561453
+Gen:36 Mean: 395.837329, Std: 5.395292, Mean_next: 398.867337, Selection Intensity: 0.561602
+Gen:37 Mean: 398.867337, Std: 5.315336, Mean_next: 401.844811, Selection Intensity: 0.560167
+Gen:38 Mean: 401.844811, Std: 5.199880, Mean_next: 404.763234, Selection Intensity: 0.561248
+Gen:39 Mean: 404.763234, Std: 5.134617, Mean_next: 407.645294, Selection Intensity: 0.561300
+Gen:40 Mean: 407.645294, Std: 4.937869, Mean_next: 410.405068, Selection Intensity: 0.558900
+Gen:41 Mean: 410.405068, Std: 4.792152, Mean_next: 413.101046, Selection Intensity: 0.562582
+Gen:42 Mean: 413.101046, Std: 4.663022, Mean_next: 415.720756, Selection Intensity: 0.561805
+Gen:43 Mean: 415.720756, Std: 4.463022, Mean_next: 418.251408, Selection Intensity: 0.567027
+Gen:44 Mean: 418.251408, Std: 4.371444, Mean_next: 420.713677, Selection Intensity: 0.563262
+Gen:45 Mean: 420.713677, Std: 4.351269, Mean_next: 423.173612, Selection Intensity: 0.565337
+Gen:46 Mean: 423.173612, Std: 4.331640, Mean_next: 425.626629, Selection Intensity: 0.566302
+Gen:47 Mean: 425.626629, Std: 4.233398, Mean_next: 428.017860, Selection Intensity: 0.564849
+Gen:48 Mean: 428.017860, Std: 4.173163, Mean_next: 430.369670, Selection Intensity: 0.563556
+Gen:49 Mean: 430.369670, Std: 4.145429, Mean_next: 432.701207, Selection Intensity: 0.562436
+Gen:50 Mean: 432.701207, Std: 4.071883, Mean_next: 435.026307, Selection Intensity: 0.571014
+Gen:51 Mean: 435.026307, Std: 4.003783, Mean_next: 437.295736, Selection Intensity: 0.566821
+Gen:52 Mean: 437.295736, Std: 3.978228, Mean_next: 439.527595, Selection Intensity: 0.561018
+Gen:53 Mean: 439.527595, Std: 3.882610, Mean_next: 441.727192, Selection Intensity: 0.566526
+Gen:54 Mean: 441.727192, Std: 3.770209, Mean_next: 443.839903, Selection Intensity: 0.560370
+Gen:55 Mean: 443.839903, Std: 3.679250, Mean_next: 445.928158, Selection Intensity: 0.567576
+Gen:56 Mean: 445.928158, Std: 3.641661, Mean_next: 447.969509, Selection Intensity: 0.560555
+Gen:57 Mean: 447.969509, Std: 3.572707, Mean_next: 449.969670, Selection Intensity: 0.559845
+Gen:58 Mean: 449.969670, Std: 3.453700, Mean_next: 451.921078, Selection Intensity: 0.565020
+Gen:59 Mean: 451.921078, Std: 3.380836, Mean_next: 453.808528, Selection Intensity: 0.558279
+Gen:60 Mean: 453.808528, Std: 3.309611, Mean_next: 455.656074, Selection Intensity: 0.558237
+Gen:61 Mean: 455.656074, Std: 3.253301, Mean_next: 457.479002, Selection Intensity: 0.560332
+Gen:62 Mean: 457.479002, Std: 3.192434, Mean_next: 459.259855, Selection Intensity: 0.557835
+Gen:63 Mean: 459.259855, Std: 3.145783, Mean_next: 461.036685, Selection Intensity: 0.564829
+Gen:64 Mean: 461.036685, Std: 3.080775, Mean_next: 462.764441, Selection Intensity: 0.560819
+Gen:65 Mean: 462.764441, Std: 3.018717, Mean_next: 464.459212, Selection Intensity: 0.561421
+Gen:66 Mean: 464.459212, Std: 2.913486, Mean_next: 466.082864, Selection Intensity: 0.557289
+Gen:67 Mean: 466.082864, Std: 2.842651, Mean_next: 467.679163, Selection Intensity: 0.561553
+Gen:68 Mean: 467.679163, Std: 2.810944, Mean_next: 469.260901, Selection Intensity: 0.562707
+Gen:69 Mean: 469.260901, Std: 2.737994, Mean_next: 470.800161, Selection Intensity: 0.562185
+Gen:70 Mean: 470.800161, Std: 2.640419, Mean_next: 472.288496, Selection Intensity: 0.563674
+Gen:71 Mean: 472.288496, Std: 2.576355, Mean_next: 473.735157, Selection Intensity: 0.561515
+Gen:72 Mean: 473.735157, Std: 2.518286, Mean_next: 475.150442, Selection Intensity: 0.562004
+Gen:73 Mean: 475.150442, Std: 2.465509, Mean_next: 476.527112, Selection Intensity: 0.558371
+Gen:74 Mean: 476.527112, Std: 2.401467, Mean_next: 477.869590, Selection Intensity: 0.559024
+Gen:75 Mean: 477.869590, Std: 2.345458, Mean_next: 479.179968, Selection Intensity: 0.558687
+Gen:76 Mean: 479.179968, Std: 2.311613, Mean_next: 480.467739, Selection Intensity: 0.557088
+Gen:77 Mean: 480.467739, Std: 2.267305, Mean_next: 481.743524, Selection Intensity: 0.562688
+Gen:78 Mean: 481.743524, Std: 2.194749, Mean_next: 482.959775, Selection Intensity: 0.554164
+Gen:79 Mean: 482.959775, Std: 2.211902, Mean_next: 484.193484, Selection Intensity: 0.557759
+Gen:80 Mean: 484.193484, Std: 2.162238, Mean_next: 485.398230, Selection Intensity: 0.557176
+Gen:81 Mean: 485.398230, Std: 2.077554, Mean_next: 486.561866, Selection Intensity: 0.560099
+Gen:82 Mean: 486.561866, Std: 2.023831, Mean_next: 487.690909, Selection Intensity: 0.557874
+Gen:83 Mean: 487.690909, Std: 1.961506, Mean_next: 488.779244, Selection Intensity: 0.554847
+Gen:84 Mean: 488.779244, Std: 1.895717, Mean_next: 489.832824, Selection Intensity: 0.555769
+Gen:85 Mean: 489.832824, Std: 1.827708, Mean_next: 490.847466, Selection Intensity: 0.555145
+Gen:86 Mean: 490.847466, Std: 1.739161, Mean_next: 491.803781, Selection Intensity: 0.549872
+Gen:87 Mean: 491.803781, Std: 1.661073, Mean_next: 492.724940, Selection Intensity: 0.554556
+Gen:88 Mean: 492.724940, Std: 1.577256, Mean_next: 493.598069, Selection Intensity: 0.553575
+Gen:89 Mean: 493.598069, Std: 1.494693, Mean_next: 494.412792, Selection Intensity: 0.545077
+Gen:90 Mean: 494.412792, Std: 1.398913, Mean_next: 495.190105, Selection Intensity: 0.555655
+Gen:91 Mean: 495.190105, Std: 1.295694, Mean_next: 495.902092, Selection Intensity: 0.549502
+Gen:92 Mean: 495.902092, Std: 1.211099, Mean_next: 496.565809, Selection Intensity: 0.548028
+Gen:93 Mean: 496.565809, Std: 1.103919, Mean_next: 497.164441, Selection Intensity: 0.542279
+Gen:94 Mean: 497.164441, Std: 1.007449, Mean_next: 497.710298, Selection Intensity: 0.541821
+Gen:95 Mean: 497.710298, Std: 0.885468, Mean_next: 498.180451, Selection Intensity: 0.530965
+Gen:96 Mean: 498.180451, Std: 0.780610, Mean_next: 498.587932, Selection Intensity: 0.522004
+Gen:97 Mean: 498.587932, Std: 0.681522, Mean_next: 498.937490, Selection Intensity: 0.512907
+Gen:98 Mean: 498.937490, Std: 0.585177, Mean_next: 499.212309, Selection Intensity: 0.469634
+Gen:99 Mean: 499.212309, Std: 0.513120, Mean_next: 499.449236, Selection Intensity: 0.461738
+Gen:100 Mean: 499.449236, Std: 0.514275, Mean_next: 499.705229, Selection Intensity: 0.497776
+Gen:101 Mean: 499.705229, Std: 0.459105, Mean_next: 499.915768, Selection Intensity: 0.458586
+Gen:102 Mean: 499.915768, Std: 0.278314, Mean_next: 499.993162, Selection Intensity: 0.278080
+Gen:103 Mean: 499.993162, Std: 0.082411, Mean_next: 499.999920, Selection Intensity: 0.082002
+Gen:104 Mean: 499.999920, Std: 0.008969, Mean_next: 500.000000, Selection Intensity: 0.008970
++
+Average Gen of Success: 105.000000 (0.000000)
+Average Gen of Failure: nan (nan)
+Total number of Failure: 0

@@ -1,0 +1,15 @@
+problem size: 450
+initial population size: 10996
+selection pressure: 2
+crossover probability: 1.000000
+mutation probability: 0.000000
+max generation: -1
+max number of function evaluation: -1
+repeat: 30
+selection type: TOURNAMENT
+crossover type: ONEPOINT
+==========================================================
+++++++++++++++++++++++++++++++
+Average Gen of Success: 92.300000 (1.369915)
+Average Gen of Failure: nan (nan)
+Total number of Failure: 0

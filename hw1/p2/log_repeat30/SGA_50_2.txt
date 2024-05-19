@@ -1,0 +1,15 @@
+problem size: 50
+initial population size: 782
+selection pressure: 2
+crossover probability: 1.000000
+mutation probability: 0.000000
+max generation: -1
+max number of function evaluation: -1
+repeat: 30
+selection type: TOURNAMENT
+crossover type: POPWISESHUFFLE
+==========================================================
+++++++++++++++++++++++++++++++
+Average Gen of Success: 20.066667 (0.249444)
+Average Gen of Failure: nan (nan)
+Total number of Failure: 0

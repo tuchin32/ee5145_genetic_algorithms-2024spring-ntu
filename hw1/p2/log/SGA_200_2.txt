@@ -1,0 +1,54 @@
+problem size: 200
+initial population size: 4238
+selection pressure: 2
+crossover probability: 1.000000
+mutation probability: 0.000000
+max generation: -1
+max number of function evaluation: -1
+repeat: 1
+selection type: TOURNAMENT
+crossover type: POPWISESHUFFLE
+==========================================================
+Gen: 0 Mean:      nan, Std:      nan, Mean_next: 103.767343, Selection Intensity:      nan
+Gen: 1 Mean: 103.767343, Std: 7.157940, Mean_next: 107.864559, Selection Intensity: 0.572402
+Gen: 2 Mean: 107.864559, Std: 7.025408, Mean_next: 111.929448, Selection Intensity: 0.578598
+Gen: 3 Mean: 111.929448, Std: 7.025805, Mean_next: 116.001416, Selection Intensity: 0.579573
+Gen: 4 Mean: 116.001416, Std: 7.021204, Mean_next: 119.878952, Selection Intensity: 0.552261
+Gen: 5 Mean: 119.878952, Std: 7.012645, Mean_next: 123.871402, Selection Intensity: 0.569321
+Gen: 6 Mean: 123.871402, Std: 6.805095, Mean_next: 127.675555, Selection Intensity: 0.559015
+Gen: 7 Mean: 127.675555, Std: 6.643005, Mean_next: 131.783152, Selection Intensity: 0.618334
+Gen: 8 Mean: 131.783152, Std: 6.691505, Mean_next: 135.355120, Selection Intensity: 0.533806
+Gen: 9 Mean: 135.355120, Std: 6.660877, Mean_next: 139.201746, Selection Intensity: 0.577495
+Gen:10 Mean: 139.201746, Std: 6.449508, Mean_next: 142.842378, Selection Intensity: 0.564482
+Gen:11 Mean: 142.842378, Std: 6.393180, Mean_next: 146.634733, Selection Intensity: 0.593188
+Gen:12 Mean: 146.634733, Std: 6.234912, Mean_next: 150.074799, Selection Intensity: 0.551742
+Gen:13 Mean: 150.074799, Std: 6.105748, Mean_next: 153.592968, Selection Intensity: 0.576206
+Gen:14 Mean: 153.592968, Std: 5.915419, Mean_next: 156.955168, Selection Intensity: 0.568379
+Gen:15 Mean: 156.955168, Std: 5.926829, Mean_next: 160.257905, Selection Intensity: 0.557252
+Gen:16 Mean: 160.257905, Std: 5.642845, Mean_next: 163.416942, Selection Intensity: 0.559831
+Gen:17 Mean: 163.416942, Std: 5.369198, Mean_next: 166.333648, Selection Intensity: 0.543229
+Gen:18 Mean: 166.333648, Std: 5.262712, Mean_next: 169.274186, Selection Intensity: 0.558750
+Gen:19 Mean: 169.274186, Std: 5.094237, Mean_next: 172.180510, Selection Intensity: 0.570512
+Gen:20 Mean: 172.180510, Std: 4.868854, Mean_next: 174.887683, Selection Intensity: 0.556019
+Gen:21 Mean: 174.887683, Std: 4.644577, Mean_next: 177.494573, Selection Intensity: 0.561276
+Gen:22 Mean: 177.494573, Std: 4.447676, Mean_next: 180.027607, Selection Intensity: 0.569519
+Gen:23 Mean: 180.027607, Std: 4.308364, Mean_next: 182.406324, Selection Intensity: 0.552116
+Gen:24 Mean: 182.406324, Std: 3.875612, Mean_next: 184.599811, Selection Intensity: 0.565972
+Gen:25 Mean: 184.599811, Std: 3.720829, Mean_next: 186.628598, Selection Intensity: 0.545251
+Gen:26 Mean: 186.628598, Std: 3.516073, Mean_next: 188.576451, Selection Intensity: 0.553985
+Gen:27 Mean: 188.576451, Std: 3.231464, Mean_next: 190.456583, Selection Intensity: 0.581820
+Gen:28 Mean: 190.456583, Std: 2.981282, Mean_next: 192.151958, Selection Intensity: 0.568673
+Gen:29 Mean: 192.151958, Std: 2.705462, Mean_next: 193.747286, Selection Intensity: 0.589669
+Gen:30 Mean: 193.747286, Std: 2.440628, Mean_next: 195.176970, Selection Intensity: 0.585785
+Gen:31 Mean: 195.176970, Std: 2.163082, Mean_next: 196.393818, Selection Intensity: 0.562553
+Gen:32 Mean: 196.393818, Std: 1.905490, Mean_next: 197.483011, Selection Intensity: 0.571608
+Gen:33 Mean: 197.483011, Std: 1.576302, Mean_next: 198.325389, Selection Intensity: 0.534402
+Gen:34 Mean: 198.325389, Std: 1.274157, Mean_next: 199.017933, Selection Intensity: 0.543531
+Gen:35 Mean: 199.017933, Std: 0.988446, Mean_next: 199.537990, Selection Intensity: 0.526135
+Gen:36 Mean: 199.537990, Std: 0.680301, Mean_next: 199.852761, Selection Intensity: 0.462694
+Gen:37 Mean: 199.852761, Std: 0.391667, Mean_next: 199.979707, Selection Intensity: 0.324119
+Gen:38 Mean: 199.979707, Std: 0.142663, Mean_next: 200.000000, Selection Intensity: 0.142241
++
+Average Gen of Success: 39.000000 (0.000000)
+Average Gen of Failure: nan (nan)
+Total number of Failure: 0
