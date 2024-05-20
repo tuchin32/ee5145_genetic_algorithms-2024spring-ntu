@@ -51,66 +51,6 @@ vector<vector<double>> inTxt(string path, int rows, int cols) {
 	return matrix;
 }
 
-
-// vector<vector<double>> inTxt(string path, int cityNb) {
-
-// 	ifstream infile(path);
-
-// 	string line;
-// 	vector<vector<double>> distance(cityNb, vector<double>(cityNb));
-
-// 	int lineCount = 0;
-// 	double tempDis = 0.0;
-
-
-// 	while (getline(infile, line)) {
-
-// 		int nb = 0;
-
-// 		istringstream iss(line);
-// 		while (iss >> tempDis && nb < cityNb) {
-
-// 			distance[lineCount][nb] = double(tempDis);
-// 			nb = nb + 1;
-
-// 		}
-
-// 		lineCount = lineCount + 1;
-
-// 	}
-
-// 	return distance;
-// }
-
-// vector<vector<double>> inTxt(string path, int n_jobs, int n_machines) {
-
-// 	ifstream infile(path);
-
-// 	string line;
-// 	vector<vector<double>> processTime(n_jobs, vector<double>(n_machines));
-
-// 	int lineCount = 0;
-// 	double element = 0.0;
-
-// 	while (getline(infile, line)) {
-
-// 		int nb = 0;
-
-// 		istringstream iss(line);
-// 		while (iss >> element && nb < n_machines) {
-
-// 			processTime[lineCount][nb] = double(element);
-// 			nb = nb + 1;
-
-// 		}
-
-// 		lineCount = lineCount + 1;
-
-// 	}
-
-// 	return processTime;
-// }
-
 vector<vector<int>> initPopulation(int route, int nb) {
 
 	vector<vector<int>> population(route, vector<int>(nb));
@@ -231,188 +171,6 @@ double evaluateFitness(vector<int> flow, vector<vector<double>> processTime, int
 	return makespan;
 }
 
-vector<double> choseRange(vector<double> fitness, int ep) {
-
-	vector<double>::const_iterator fitIter = fitness.cbegin();
-	int minFit = *fitIter;
-	for (; fitIter != fitness.cend(); fitIter++) {
-		if (*fitIter < minFit) {
-			minFit = *fitIter;
-		}
-	}
-
-	//cout << "Minimun distance: " << minFit << endl;
-
-	vector<double> trueFitness;
-	double total = 0;
-	for (fitIter = fitness.cbegin(); fitIter != fitness.cend(); fitIter++) {
-		double ratio = double(*fitIter) / double(minFit);
-		double exponent = -pow(ratio, ep);
-		total += exp(exponent);
-		trueFitness.push_back(total);
-	}
-
-	vector<double> range(fitness.size());
-	for (int i = 0; i < (int)fitness.size(); i++) {
-		range[i] = trueFitness[i] / total;
-	}
-
-	return range;
-}
-
-vector<int> inheritance(vector<int> father, vector<int> mother) {
-
-	if (father.size() != mother.size()) {
-		cout << "Fuck! Length is different." << endl;
-	}
-
-	int s = father.size();
-	default_random_engine generator(std::random_device{}());
-	uniform_int_distribution<int> distribution(0, s - 1);
-
-	int p1, p2;
-	p1 = distribution(generator);
-	p2 = distribution(generator);
-
-	while (p1 == p2) {
-		p2 = distribution(generator);
-	}
-
-	if (p1 > p2) {
-		int temp = p1;
-		p1 = p2;
-		p2 = temp;
-	}
-
-	vector<int> child(s);
-
-	for (int i = p1; i <= p2; i++) {
-		for (int j = 0; j < (int)mother.size(); j++) {
-			if (mother[j] == father[i]) {
-				mother.erase(mother.begin() + j);
-				break;
-			}
-		}
-	}
-
-	vector<int>::const_iterator mIter = mother.cbegin();
-	for (int i = 0; i < s; i++) {
-		if (i >= p1 && i <= p2) {
-			child[i] = father[i];
-		}
-		else {
-			child[i] = *mIter;
-			if (mIter != mother.cend()) {
-				mIter++;
-			}
-		}
-
-	}
-
-	//cout << "p1: " << p1 << endl;
-	//cout << "p2: " << p2 << endl;
-
-	return child;
-}
-
-vector<vector<int>> mutate(vector<vector<int>> population, vector<double> range, vector<double> fitness) {
-
-	int routeNb = population.size();
-
-	default_random_engine generator(std::random_device{}());
-
-	vector<vector<int>> childGen;
-	uniform_real_distribution<double> distribution(0, 1);
-	for (int i = 0; i < routeNb; i++) {
-		double randNb;
-		randNb = distribution(generator);
-
-		int parFather;
-		for (int j = 1; j < range.size(); j++){
-			if (randNb <= range[0]) {
-				parFather = 0;
-				break;
-			}
-			else if (randNb > range[j - 1] && randNb <= range[j]){
-				parFather = j;
-				break;
-			}
-		}
-
-		randNb = distribution(generator);
-
-		int parMother;
-		for (int j = 1; j < range.size(); j++){
-			if (randNb <= range[0]) {
-				parMother = 0;
-				break;
-			}
-			else if (randNb > range[j - 1] && randNb <= range[j]){
-				parMother = j;
-				break;
-			}
-		}
-
-
-		while (parFather == parMother){
-			randNb = distribution(generator);
-			for (int j = 1; j < range.size(); j++){
-				if (randNb <= range[0]) {
-					parMother = 0;
-					break;
-				}
-				else if (randNb > range[j - 1] && randNb <= range[j]){
-					parMother = j;
-					break;
-				}
-			}
-		}
-
-		vector<int> child = inheritance(population[parFather], population[parMother]);
-		childGen.push_back(child);
-
-	}
-
-	vector<double>::const_iterator fitIter = fitness.cbegin();
-	double minFit = *fitIter;
-	int index = 0;
-	for (; fitIter != fitness.cend(); fitIter++) {
-		if (*fitIter < minFit) {
-			minFit = *fitIter;
-			index = fitIter - fitness.cbegin();
-		}
-	}
-	childGen.push_back(population[index]);
-
-	return childGen;
-}
-
-vector<vector<int>> change(vector<vector<int>> population, double changeRate, int cityNb) {
-
-	default_random_engine generator(std::random_device{}());
-	uniform_real_distribution<double> dis(0, 1);
-	uniform_int_distribution<int> disInt(0, cityNb - 1);
-
-	for (int i = 0; i < population.size(); i++) {
-		double r = dis(generator);
-		if (r >= changeRate) {
-			int first, second;
-			first = disInt(generator);
-			second = disInt(generator);
-
-			while (first == second) {
-				second = disInt(generator);
-			}
-
-			int temp = population[i][first];
-			population[i][first] = population[i][second];
-			population[i][second] = temp;
-		}
-	}
-
-	return population;
-}
-
 vector<int> saveMin(vector<vector<int>> population, vector<double> fitness) {
 
 	vector<double>::const_iterator fitIter = fitness.cbegin();
@@ -434,17 +192,18 @@ vector<int> saveMin(vector<vector<int>> population, vector<double> fitness) {
 
 
 double uniform() {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_real_distribution<> dis(0.0, 1.0);
+    static random_device rd;
+    static mt19937 gen(rd());
+    static uniform_real_distribution<> dis(0.0, 1.0);
     return dis(gen);
 }
 
 int uniformInt(int a, int b) {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dis(a, b);
-    return dis(gen);
+    // static random_device rd;
+    // static mt19937 gen(rd());
+    // uniform_int_distribution<> dis(a, b);
+    // return dis(gen);
+	return (a + (int) (uniform () * (b - a + 1)));
 }
 
 void uniformArray(int *array, int num, int a, int b) {
@@ -578,20 +337,13 @@ vector<vector<int>> crossover(const vector<vector<int>> & population, const vect
 void pairwiseXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, vector<int> & c2, 
                 const int cityNb, const double pc, const crossoverType xoType) {
 
-	// default_random_engine generator(std::random_device{}());
-	// uniform_real_distribution<double> dis(0, 1);
-	// uniform_int_distribution<int> disInt(0, cityNb - 1);
-
 	int first, second;
 
 	if (uniform() < pc) {
 		// Do crossover
 
 		// Find a random segment (first < second)
-		// first = disInt(generator);
-		// second = disInt(generator);
 		first = uniformInt(0, cityNb - 1);
-		// first = 0;
 		second = uniformInt(0, cityNb - 1);
 
 		while (first == second) {
@@ -616,33 +368,6 @@ void pairwiseXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1
 		c1 = p1;
 		c2 = p2;
 	}
-
-	// // Visualize the process
-	// cout << "========= After crossover =========" << endl;
-	// int i;
-	// cout << "First: " << first << endl;
-	// cout << "Second: " << second << endl;
-	// cout << "Parent 1: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << p1[i] << " ";
-	// }
-	// cout << endl;
-	// cout << "Parent 2: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << p2[i] << " ";
-	// }
-	// cout << endl;
-	// cout << "Child 1: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << c1[i] << " ";
-	// }
-	// cout << endl;
-	// cout << "Child 2: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << c2[i] << " ";
-	// }
-	// cout << endl << endl;
-
 }
 
 void orderXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, vector<int> & c2,
@@ -666,11 +391,8 @@ void orderXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, v
 	// 2. Fill rest alleles based on to the other parent from the 2nd cross site
 	// Pair: c1 -- p2
 	i = second + 1;
-	// i = 0;
 	j = second + 1;
-	// j = 0;
 	while (i != first) {
-		// cout << "i: " << i << " j: " << j << endl;
 		if (i == cityNb)
 			i = 0;
 		if (j == cityNb)
@@ -685,9 +407,7 @@ void orderXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, v
 
 	// Pair: c2 -- p1
 	i = second + 1;
-	// i = 0;
 	j = second + 1;
-	// j = 0;
 	while (i != first) {
 		if (i == cityNb)
 			i = 0;
@@ -701,61 +421,6 @@ void orderXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, v
 		}
 		j++;
 	}
-
-
-	// // Visualize the process
-	// cout << "========= After orderXO =========" << endl;
-	// cout << "First: " << first << endl;
-	// cout << "Second: " << second << endl;
-	// cout << "Parent 1: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << p1[i] << " ";
-	// }
-	// cout << endl;
-	// cout << "Parent 2: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << p2[i] << " ";
-	// }
-	// cout << endl;
-	// cout << "Child 1: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << c1[i] << " ";
-	// }
-	// cout << endl;
-	// cout << "Child 2: ";
-	// for (i = 0; i < cityNb; i++) {
-	// 	cout << c2[i] << " ";
-	// }
-	// cout << endl << endl;
-
-	// // Validate that the childs are permutation
-	// vector<int> check(cityNb);
-	// // Check c1
-	// for (i = 0; i < cityNb; i++) {
-	// 	check[i] = 0;
-	// }
-	// for (i = 0; i < cityNb; i++) {
-	// 	check[c1[i]]++;
-	// }
-	// for (i = 0; i < cityNb; i++) {
-	// 	if (check[i] != 1) {
-	// 		cout << "Child 1 is not a permutation." << endl;
-	// 	}
-	// }
-	// // Check c2
-	// for (i = 0; i < cityNb; i++) {
-	// 	check[i] = 0;
-	// }
-	// for (i = 0; i < cityNb; i++) {
-	// 	check[c2[i]]++;
-	// }
-	// for (i = 0; i < cityNb; i++) {
-	// 	if (check[i] != 1) {
-	// 		cout << "Child 2 is not a permutation." << endl;
-	// 	}
-	// }
-	
-
 }
 
 vector<vector<int>> FrequencyCrossover(const vector<vector<int>>& population, int cityNb) {
@@ -803,3 +468,23 @@ vector<vector<int>> FrequencyCrossover(const vector<vector<int>>& population, in
     return newGeneration;
 }
 
+
+void mutation(vector<vector<int>>& population, double pm, int n_ell) {
+
+	for (int i = 0; i < population.size(); i++) {
+		if (uniform() < pm) {
+			int first, second;
+			first = uniformInt(0, n_ell - 1);
+			second = uniformInt(0, n_ell - 1);
+
+			while (first == second) {
+				second = uniformInt(0, n_ell - 1);
+			}
+
+			// Swap mutation
+			int temp = population[i][first];
+			population[i][first] = population[i][second];
+			population[i][second] = temp;
+		}
+	}
+}

@@ -32,14 +32,6 @@ double evaluateFitness(vector<int> chromosome, vector<vector<double>> matrix, pr
 double evaluateFitness(vector<int> sroute, vector<vector<double>> length, int cityNb);
 double evaluateFitness(vector<int> flow, vector<vector<double>> processTime, int n_jobs, int n_machines);
 
-vector<double> choseRange(vector<double> fitness, int ep);
-
-vector<int> inheritance(vector<int> father, vector<int> mother);
-
-vector<vector<int>> mutate(vector<vector<int>> population, vector<double> range, vector<double> fitness);
-
-vector<vector<int>> change(vector<vector<int>> population, double changeRate, int cityNb);
-
 vector<int> saveMin(vector<vector<int>> population, vector<double> fitness);
 
 
@@ -68,6 +60,8 @@ void orderXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, v
 			 const int first, const int second, const int cityNb);
 vector<vector<int>> FrequencyCrossover(const vector<vector<int>>& population, int cityNb);
 
+// Mutation
+void mutation(vector<vector<int>>& population, double pm, int n_ell);
 
 
 // TODO

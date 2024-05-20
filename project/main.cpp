@@ -20,7 +20,8 @@ int main(int argc, char * argv[]) {
 	string dataPath = "./data/dantzig42_d.txt";
 	int n_pop = 1000;
 	int maxGen = 1000;
-	double pc = 1.0;
+	double pc = 0.9;
+	double pm = 0.1;
 	double selectionPressure = 2.0;
 	crossoverType xoType = crossoverType::OX;	// xoType: 0 for Order crossover, 1 for Frequency crossover
 	
@@ -31,7 +32,7 @@ int main(int argc, char * argv[]) {
 
 
 	// Read arguments
-	if (argc > 1 && argc == 9 && atoi(argv[1]) == 0) {
+	if (argc > 1 && argc == 10 && atoi(argv[1]) == 0) {
 		// TSP
 		pType = (problemType)atoi(argv[1]);
 		dataPath = argv[2];
@@ -39,12 +40,13 @@ int main(int argc, char * argv[]) {
 		n_pop = atoi(argv[4]);
 		maxGen = atoi(argv[5]);
 		pc = atof(argv[6]);
-		selectionPressure = atof(argv[7]);
-		xoType = (crossoverType)atoi(argv[8]);
+		pm = atof(argv[7]);
+		selectionPressure = atof(argv[8]);
+		xoType = (crossoverType)atoi(argv[9]);
 		
 		n_ell = n_cities;
 	}
-	else if (argc > 1 && argc == 10 && atoi(argv[1]) == 1) {
+	else if (argc > 1 && argc == 11 && atoi(argv[1]) == 1) {
 		// PFSP
 		pType = (problemType)atoi(argv[1]);
 		dataPath = argv[2];
@@ -53,20 +55,21 @@ int main(int argc, char * argv[]) {
 		n_pop = atoi(argv[5]);
 		maxGen = atoi(argv[6]);
 		pc = atof(argv[7]);
-		selectionPressure = atof(argv[8]);
-		xoType = (crossoverType)atoi(argv[9]);
+		pm = atof(argv[8]);
+		selectionPressure = atof(argv[9]);
+		xoType = (crossoverType)atoi(argv[10]);
 
 		n_ell = n_jobs;
 	}
 	else if (argc > 1) {
-		cout << "TSP: 9 arguments, PFSP: 10 arguments\n";
+		cout << "TSP: 10 arguments, PFSP: 11 arguments\n";
 		cout << "pType: 0 for TSP, 1 for PFSP" << endl;
 		cout << "xoType: 0 for Order crossover, 1 for Frequency crossover" << endl << endl;
 
-		cout << "Usage for TSP: " << argv[0] << " pType dataPath n_cities n_pop maxGen pc selectionPressure xoType" << endl;
-		cout << "Example: " << argv[0] << " 0 ./data/dantzig42_d.txt 42 1000 1000 1.0 2 0" << endl << endl;
-		cout << "Usage for PFSP: " << argv[0] << " pType dataPath n_jobs n_machines n_pop maxGen pc selectionPressure xoType" << endl;
-		cout << "Example: " << argv[0] << " 1 ./data/flowshop_j20m5.txt 20 5 1000 1000 1.0 2 0" << endl;
+		cout << "Usage for TSP: " << argv[0] << " pType dataPath n_cities n_pop maxGen pc pm selectionPressure xoType" << endl;
+		cout << "Example: " << argv[0] << " 0 ./data/dantzig42_d.txt 42 1000 1000 0.9 0.1 2 0" << endl << endl;
+		cout << "Usage for PFSP: " << argv[0] << " pType dataPath n_jobs n_machines n_pop maxGen pc pm selectionPressure xoType" << endl;
+		cout << "Example: " << argv[0] << " 1 ./data/flowshop_j20m5.txt 20 5 1000 1000 0.9 0.1 2 0" << endl;
 		exit(1);
 	}
 
@@ -125,6 +128,9 @@ int main(int argc, char * argv[]) {
 		offspring.clear();
 		offspring = crossover(population, selectionIndex, n_pop, n_ell, pc, xoType);
 
+		// Do mutation
+		mutation(offspring, pm, n_ell);
+
 		// Do elitism
 		if (xoType == crossoverType::OX) {
 			int eliteNb = (int)(n_pop / 10);	// 1, 2, or 10% of the population
@@ -163,7 +169,7 @@ int main(int argc, char * argv[]) {
 	// Output the final best route
 	vector<double> finalFitness;
 	string benchmark = dataPath.substr(dataPath.find_last_of("/") + 1, dataPath.find_last_of("_") - dataPath.find_last_of("/") - 1);
-	string outputFile = "./out/" + benchmark + "_route.txt";
+	string outputFile = "./output/" + benchmark + "_route.txt";
 	ofstream out(outputFile, ios::out);
 
 	for (int i = 0; i < maxGen; i++) {
