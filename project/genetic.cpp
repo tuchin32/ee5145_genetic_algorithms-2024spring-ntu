@@ -272,7 +272,7 @@ vector<int> tournamentSelection(const vector<double> & fitness,
     for (i = 0; i < route; i++) {
 
         int winner = 0;
-        double winnerFitness = -10000000.0;
+        double winnerFitness = 10000000.0;
 
 		// With replacement
 		int rand_arr[intSelectionPressure];
@@ -283,8 +283,8 @@ vector<int> tournamentSelection(const vector<double> & fitness,
 			int challenger = rand_arr[j];
 			double challengerFitness = fitness[challenger];
 
-            if (challengerFitness > winnerFitness) {
-				if (uniform() < pwinner || winnerFitness < -999999.0) {
+            if (challengerFitness < winnerFitness) {
+				if (uniform() < pwinner || winnerFitness > 999999.0) {
 					winner = challenger;
 					winnerFitness = challengerFitness;
 				}
@@ -359,6 +359,7 @@ void pairwiseXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1
 		if (xoType == crossoverType::OX) {
 			// Order crossover
 			orderXO(p1, p2, c1, c2, first, second, cityNb);
+			// SimpleXO(p1, p2, c1, c2, first, cityNb);
 		}
 	}
 	else {
@@ -420,6 +421,45 @@ void orderXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, v
 			i++;
 		}
 		j++;
+	}
+}
+
+void SimpleXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, vector<int> & c2,
+			  const int cutpoint, const int cityNb) {
+	
+	int i, j, item;
+	vector<int>::iterator iter;
+
+	// 1. Copy a random segment from its parent
+	for (i = 0; i < cityNb; i++) {
+		if (i <= cutpoint) {
+			c1[i] = p1[i];
+			c2[i] = p2[i];
+		}
+		else {
+			c1[i] = -1;
+			c2[i] = -1;
+		}
+	}
+
+	// 2. Fill rest alleles based on to the other parent from the cutpoint to the last bit
+	//    (If the allele does not exist in the offspring, assign the value)
+	// Pair: c1 -- p2
+	i = cutpoint + 1;
+	for (j = 0; j < cityNb; j++) {
+		if (find(c1.begin(), c1.end(), p2[j]) == c1.end()) {
+			c1[i] = p2[j];
+			i++;
+		}
+	}
+
+	// Pair: c2 -- p1
+	i = cutpoint + 1;
+	for (j = 0; j < cityNb; j++) {
+		if (find(c2.begin(), c2.end(), p1[j]) == c2.end()) {
+			c2[i] = p1[j];
+			i++;
+		}
 	}
 }
 

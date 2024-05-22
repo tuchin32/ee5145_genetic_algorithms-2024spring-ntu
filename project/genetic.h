@@ -58,6 +58,8 @@ void pairwiseXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1
                 const int cityNb, const double pc, const crossoverType xoType);
 void orderXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, vector<int> & c2,
 			 const int first, const int second, const int cityNb);
+void SimpleXO(const vector<int> & p1, const vector<int> & p2, vector<int> & c1, vector<int> & c2,
+			  const int cutpoint, const int cityNb);
 vector<vector<int>> FrequencyCrossover(const vector<vector<int>>& population, int cityNb);
 
 // Mutation

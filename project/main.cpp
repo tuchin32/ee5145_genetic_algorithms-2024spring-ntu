@@ -74,7 +74,7 @@ int main(int argc, char * argv[]) {
 	}
 
 	cout << "n_ell: " << n_ell << ", n_pop: " << n_pop << ", maxGen: " << maxGen;
-	cout << ", pc: " << pc << ", selectionPressure: " << selectionPressure << ", xoType: ";
+	cout << ", pc: " << pc << ", pm: " << pm << ", selectionPressure: " << selectionPressure << ", xoType: ";
 	if (xoType == crossoverType::OX) {
 		cout << "OX" << endl;
 	}
@@ -133,7 +133,7 @@ int main(int argc, char * argv[]) {
 
 		// Do elitism
 		if (xoType == crossoverType::OX) {
-			int eliteNb = (int)(n_pop / 10);	// 1, 2, or 10% of the population
+			int eliteNb = (int)(n_pop * (1.0 / n_pop));	// 1, 2, or 10% of the population
 			int eliteIndex[eliteNb];
 			uniformArray(eliteIndex, eliteNb, 0, n_pop - 1);
 			for (int i = 0; i < eliteNb; i++){
@@ -169,7 +169,7 @@ int main(int argc, char * argv[]) {
 	// Output the final best route
 	vector<double> finalFitness;
 	string benchmark = dataPath.substr(dataPath.find_last_of("/") + 1, dataPath.find_last_of("_") - dataPath.find_last_of("/") - 1);
-	string outputFile = "./output/" + benchmark + "_route.txt";
+	string outputFile = "./out/" + benchmark + "_route.txt";
 	ofstream out(outputFile, ios::out);
 
 	for (int i = 0; i < maxGen; i++) {
