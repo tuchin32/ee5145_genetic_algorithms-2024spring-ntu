@@ -1,21 +1,17 @@
-"""
-    Original author: Weibu Lee
-"""
-
 import argparse
-import math
 import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+from joblib import Parallel, delayed
+from scipy.spatial import ConvexHull
 
-def run_ga(prob_type, data_path, ell, n_pop, max_gen, pc, pm, selection_pressure, xo_type):
+def run_ga(prob_type, data_path, n_pop, max_gen, pc, pm, selection_pressure, xo_type):
     ga_execute = "./main"  # execute filename
     cmd = [
         ga_execute,
         str(prob_type),
         data_path,
-        str(ell),
         str(n_pop),
         str(max_gen),
         str(pc),
@@ -24,7 +20,8 @@ def run_ga(prob_type, data_path, ell, n_pop, max_gen, pc, pm, selection_pressure
         str(xo_type)
     ]
     
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    # result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     output_lines = result.stdout.splitlines()
     
     min_fitness = None
@@ -90,9 +87,8 @@ def plot_cmap(ell, n_pop, pc, sp, fitnesses, fitness_thres):
     plt.savefig('test.png', dpi=300, bbox_inches='tight')
     plt.close()
 
-def plot_map(sp, pc, fitness):
+def plot_map(sp, pc, fitness, savename):
     fitness = fitness[::-1, :]
-    print(fitness.shape)
     plt.figure(figsize=(10, 10))
     plt.imshow(fitness, cmap='coolwarm', interpolation='nearest')
     plt.colorbar()
@@ -106,14 +102,14 @@ def plot_map(sp, pc, fitness):
     plt.xlabel('Selection Pressure')
     plt.ylabel('Crossover Probability')
     plt.title('Control Map of Traveling Salesman Problem')
-    plt.savefig('test.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'./image/{savename}_heatmap.png', dpi=300, bbox_inches='tight')
     plt.close()
 
-def plot_threshold_map(sp, pc, fitness, threshold):
+def plot_threshold_map(sp, pc, fitness, threshold, savename):
     # fitness = fitness[::-1, :]
-    print(fitness.shape)
     plt.figure(figsize=(10, 10))
     
+    coords = []
     for i in range(len(sp)):
         for j in range(len(pc)):
             if fitness[i][j] >= threshold:
@@ -121,8 +117,15 @@ def plot_threshold_map(sp, pc, fitness, threshold):
                 # plt.text(j, i, int(fitness[i][j]), ha='center', va='center', color='black')
             else:
                 # plt.text(j, i, int(fitness[i][j]), ha='center', va='center', color='red')
-                plt.scatter(j, i, color='red', s=100)
+                plt.scatter(j, i, color='black', s=100)
+                coords.append([j, i])
 
+    # Find envelope based on the given points
+    coords = np.array(coords)
+    hull = ConvexHull(coords)
+    for simplex in hull.simplices:
+        plt.plot(coords[simplex, 0], coords[simplex, 1], 'k-')
+    
     pc = [round(p, 2) for p in pc]
     sp = [round(s, 2) for s in sp]
 
@@ -132,7 +135,7 @@ def plot_threshold_map(sp, pc, fitness, threshold):
     plt.xlabel('Selection Pressure')
     plt.ylabel('Crossover Probability')
     plt.title('Control Map of Traveling Salesman Problem')
-    plt.savefig('test_thres.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'./image/{savename}_ctrlmap.png', dpi=300, bbox_inches='tight')
     plt.close()
 
     
@@ -140,68 +143,59 @@ def plot_threshold_map(sp, pc, fitness, threshold):
 if __name__ == '__main__':
     # Parse arguments
     parser = argparse.ArgumentParser()
-    # parser.add_argument('--output_file', '-o', type=str, default='fitness_results.txt', help='Output file to save fitness results')
+    # - GA parameters
     parser.add_argument('--prob_type', '-p', type=int, default=0, help='Problem type (0 for TSP, 1 for PFSP)')
     parser.add_argument('--data_path', '-d', type=str, default='./data/dantzig42_d.txt', help='Path to the data file')
     parser.add_argument('--n_ell', type=int, default=42, help='Problem size (City number)')
-    parser.add_argument('--n_pop', type=int, default=500, help='Population size')
-    parser.add_argument('--max_gen', type=int, default=500, help='Maximum number of generations')
-    parser.add_argument('--pm', type=float, default=0.1, help='Mutation probability')
+    parser.add_argument('--n_pop', type=int, default=2500, help='Population size')
+    parser.add_argument('--max_gen', type=int, default=1000, help='Maximum number of generations')
+    parser.add_argument('--pm', type=float, default=0.0, help='Mutation probability')
     parser.add_argument('--xo_type', type=int, default=0, help='Crossover type (0 for Order crossover, 1 for Frequency crossover)')
+    # - Simulation parameters
+    parser.add_argument('--output_file', '-o', type=str, default='dantzig42', help='Output file to save fitness results')
+    parser.add_argument('--n_repeat', type=int, default=3, help='Number of repeats for each configuration')
+    parser.add_argument('--load', action=argparse.BooleanOptionalAction, help='Load fitness results from file')
     args = parser.parse_args()
 
-    # test_size = 21
-    size_pc, size_sp = 10, 10
-    # pcs = [1.0]
-    # pcs = np.random.uniform(0.0, 1.0, size=test_size)
+
+    size_pc, size_sp = 10, 13
     pcs = np.linspace(0.1, 1.0, num=size_pc, endpoint=True)
-    # sps = [2.0]
-    # sps = np.random.uniform(1.0, 2.0, size=test_size)
-    sps = np.linspace(1.0, 10.0, num=size_sp, endpoint=True)
-
-    fitnesses = np.zeros((size_pc, size_sp), dtype=float)
-
-    fitnesses = np.loadtxt('./out/fitness_results.txt', dtype=float)
-    plot_map(pcs, sps, fitnesses)
-    plot_threshold_map(pcs, sps, fitnesses, 790)
-    exit()
-
-    # if os.path.exists(args.output_file):
-    #     os.remove(args.output_file)
-
-    n_repeat = 3
-
-    for i, pc in enumerate(pcs):
-        # for sp in tqdm(sps, leave=False):
-        # print(f'pc: {pc}')
-        pbar = tqdm(total=len(sps))
-        for j, sp in enumerate(sps):
-            pbar.set_description(f'pc: {pc}, sp: {sp}')
-
-            sum_fitness = 0
-            for r in range(n_repeat):
-                min_fitness = run_ga(args.prob_type, args.data_path, args.n_ell, args.n_pop, args.max_gen, pc, args.pm, sp, args.xo_type)
-                sum_fitness += min_fitness
-
-            fitnesses[i][j] = sum_fitness / n_repeat
-            # fitnesses.append(min_fitness)
-            # print(f'pc: {pc}')
-            # print(f'selection pressure: {sp}')
-            # print(f'min_fitness: {min_fitness}')
-            pbar.update(1)
-
+    # sps = np.linspace(1.0, 30.0, num=size_sp, endpoint=True)
+    sps = np.logspace(0.0, 6.0, num=size_sp, endpoint=True, base=2.0)
+    
     print(f'crossover probability: {pcs}')
     print(f'selection pressure: {sps}')
-    print(f'fitness: {fitnesses}')
-    # print(f"All runs completed. Results saved to {args.output_file}")
 
-    # Save fitness results to file
-    np.savetxt('./out/fitness_results.txt', fitnesses, fmt='%f')
+    if args.load:
+        fitnesses = np.loadtxt(f'./out/{args.output_file}_fitness.txt', dtype=float)
 
-    plot_map(pcs, sps, fitnesses)
-    plot_threshold_map(pcs, sps, fitnesses, 800)
+    else:
+        fitnesses = np.zeros((size_pc, size_sp), dtype=float)
 
-    # solution = 699
-    # successful_thres = 800
-    # fitness_thres = solution + successful_thres
-    # plot_cmap(42, 1000, pcs, sps, np.random.uniform(699.0, 2001.0, size=test_size), fitness_thres)
+        pbar = tqdm(total=(sps.shape[0] * pcs.shape[0]))
+        for i, pc in enumerate(pcs):
+            for j, sp in enumerate(sps):
+                pc = round(pc, 2)
+                sp = round(sp, 2) if sp < 2.0 else round(sp, 0)
+                pbar.set_description(f'pc: {pc}, sp: {sp}')
+
+                min_fitness_list = Parallel(n_jobs=args.n_repeat)(
+                    delayed(run_ga)(args.prob_type, args.data_path, args.n_pop, args.max_gen, pc, args.pm, sp, args.xo_type) 
+                    for _ in range(args.n_repeat)
+                )
+
+                fitnesses[i][j] = np.mean(min_fitness_list)
+
+                pbar.update(1)
+
+        print(f'fitness: {fitnesses}')
+
+        # Save fitness results to file
+        np.savetxt(f'./out/{args.output_file}_fitness.txt', fitnesses, fmt='%f')
+
+    # Plot control map
+    thres = int(699 * 1.14)
+    # plot_cmap(args.n_ell, args.n_pop, pcs, sps, fitnesses, thres)
+    plot_map(pcs, sps, fitnesses, savename=args.output_file)
+    plot_threshold_map(pcs, sps, fitnesses, threshold=thres, savename=args.output_file)
+

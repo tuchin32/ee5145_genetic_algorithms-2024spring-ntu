@@ -12,7 +12,7 @@
 using namespace std;
 using std::vector;
 
-vector<vector<double>> inTxt(string path, int rows, int cols) {
+vector<vector<double>> inTxt(string path) {
 	/*
 		1. TSP
 		    - matrix: distance between cities
@@ -27,25 +27,24 @@ vector<vector<double>> inTxt(string path, int rows, int cols) {
 	ifstream infile(path);
 
 	string line;
-	vector<vector<double>> matrix(rows, vector<double>(cols));
+	vector<vector<double>> matrix;
 
-	int lineCount = 0;
+	int rowCount = 0, colCount = 0;
 	double element = 0.0;
 
 	while (getline(infile, line)) {
 
-		int nb = 0;
-
 		istringstream iss(line);
-		while (iss >> element && nb < cols) {
+		vector<double> tmp;
 
-			matrix[lineCount][nb] = double(element);
-			nb = nb + 1;
-
+		colCount = 0;
+		while (iss >> element) {
+			tmp.push_back(element);
+			colCount++;
 		}
 
-		lineCount = lineCount + 1;
-
+		matrix.push_back(tmp);
+		rowCount++;
 	}
 
 	return matrix;
@@ -184,6 +183,46 @@ vector<int> saveMin(vector<vector<int>> population, vector<double> fitness) {
 	}
 
 	return population[index];
+}
+
+bool terminate(vector<double> fitness) {
+	/*
+		Stopping criteria
+		1. Maximum number of generations (handled in the main function)
+		2. Convergence
+		3. Performance plateau
+
+		Suppose the fitness is sorted in ascending order.
+	*/
+
+	// Convergence
+	double minFit = fitness[0];
+	double maxFit = fitness[fitness.size() - 1];
+	if (maxFit - minFit < 1e-3) {
+		return true;
+	}
+
+	// Performance plateau
+	double ratio = 0.5;  // percentage of the population, considering 0.4 to 0.455 if using mutation
+	double sum, avg1, avg2;
+	int plateau = int(fitness.size() * ratio);
+	if (fitness.size() > plateau) {
+		sum = 0;
+		for (int i = 0; i < plateau; i++) {
+			sum += fitness[i];
+		}
+		avg1 = sum / plateau;
+		sum = 0;
+		for (int i = 0; i < plateau; i++) {
+			sum += fitness[i + plateau];
+		}
+		avg2 = sum / plateau;
+		if ((avg2 - avg1) < 1e-3) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 

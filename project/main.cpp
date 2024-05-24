@@ -8,71 +8,52 @@
 #include <vector>
 #include <random>
 #include <iomanip>
-
 #include "genetic.h"
-
 using namespace std;
 
 
 int main(int argc, char * argv[]) {
 
+	// Define and read arguments
 	problemType pType = problemType::TSP;	    // pType: 0 for TSP, 1 for PFSP
 	string dataPath = "./data/dantzig42_d.txt";
-	int n_pop = 1000;
+	int n_pop = 2500;
 	int maxGen = 1000;
 	double pc = 0.9;
 	double pm = 0.1;
 	double selectionPressure = 2.0;
 	crossoverType xoType = crossoverType::OX;	// xoType: 0 for Order crossover, 1 for Frequency crossover
 	
-	int n_ell = 42;
-	int n_cities = 42;
-	int n_jobs = 20;
-	int n_machines = 5;
-
-
-	// Read arguments
-	if (argc > 1 && argc == 10 && atoi(argv[1]) == 0) {
-		// TSP
+	if (argc > 1 && argc == 9) {
 		pType = (problemType)atoi(argv[1]);
 		dataPath = argv[2];
-		n_cities = atoi(argv[3]);
-		n_pop = atoi(argv[4]);
-		maxGen = atoi(argv[5]);
-		pc = atof(argv[6]);
-		pm = atof(argv[7]);
-		selectionPressure = atof(argv[8]);
-		xoType = (crossoverType)atoi(argv[9]);
-		
-		n_ell = n_cities;
-	}
-	else if (argc > 1 && argc == 11 && atoi(argv[1]) == 1) {
-		// PFSP
-		pType = (problemType)atoi(argv[1]);
-		dataPath = argv[2];
-		n_jobs = atoi(argv[3]);
-		n_machines = atoi(argv[4]);
-		n_pop = atoi(argv[5]);
-		maxGen = atoi(argv[6]);
-		pc = atof(argv[7]);
-		pm = atof(argv[8]);
-		selectionPressure = atof(argv[9]);
-		xoType = (crossoverType)atoi(argv[10]);
-
-		n_ell = n_jobs;
+		n_pop = atoi(argv[3]);
+		maxGen = atoi(argv[4]);
+		pc = atof(argv[5]);
+		pm = atof(argv[6]);
+		selectionPressure = atof(argv[7]);
+		xoType = (crossoverType)atoi(argv[8]);
 	}
 	else if (argc > 1) {
-		cout << "TSP: 10 arguments, PFSP: 11 arguments\n";
+		cout << "Usage: " << argv[0] << " pType dataPath n_pop maxGen pc pm selectionPressure xoType" << endl;
 		cout << "pType: 0 for TSP, 1 for PFSP" << endl;
 		cout << "xoType: 0 for Order crossover, 1 for Frequency crossover" << endl << endl;
 
-		cout << "Usage for TSP: " << argv[0] << " pType dataPath n_cities n_pop maxGen pc pm selectionPressure xoType" << endl;
-		cout << "Example: " << argv[0] << " 0 ./data/dantzig42_d.txt 42 1000 1000 0.9 0.1 2 0" << endl << endl;
-		cout << "Usage for PFSP: " << argv[0] << " pType dataPath n_jobs n_machines n_pop maxGen pc pm selectionPressure xoType" << endl;
-		cout << "Example: " << argv[0] << " 1 ./data/flowshop_j20m5.txt 20 5 1000 1000 0.9 0.1 2 0" << endl;
+		cout << "Example for TSP : " << argv[0] << " 0 ./data/dantzig42_d.txt    2500 1000 0.9 0.1 2 0" << endl;
+		cout << "Example for PFSP: " << argv[0] << " 1 ./data/flowshop_j20m5.txt 2500 1000 0.9 0.1 2 0" << endl;
 		exit(1);
 	}
 
+
+	// Read data matrix and define problem size
+	int n_ell = 42;		// Number of cities for TSP, number of jobs for PFSP
+	vector<vector<double>> matrix;
+
+	matrix = inTxt(dataPath);
+	n_ell = matrix.size();
+
+
+	// Output the parameters
 	cout << "n_ell: " << n_ell << ", n_pop: " << n_pop << ", maxGen: " << maxGen;
 	cout << ", pc: " << pc << ", pm: " << pm << ", selectionPressure: " << selectionPressure << ", xoType: ";
 	if (xoType == crossoverType::OX) {
@@ -86,23 +67,13 @@ int main(int argc, char * argv[]) {
 	}
 
 
-	vector<vector<double>> matrix;
 	vector<vector<int>> population;
-	vector<double> fitness;
-
-	vector<int> selectionIndex;
 	vector<vector<int>> offspring;
+	vector<double> fitness;
+	vector<int> selectionIndex;
 
 	// Record the best route in each generation
-	vector<vector<int>> mini(maxGen, vector<int>(n_ell));	
-
-	// Read distance matrix
-	if (pType == problemType::TSP) {
-		matrix = inTxt(dataPath, n_cities, n_cities);
-	}
-	else if (pType == problemType::PFSP) {
-		matrix = inTxt(dataPath, n_jobs, n_machines);
-	}
+	vector<vector<int>> mini; //(maxGen, vector<int>(n_ell));	
 
 	// Initialize population
 	population = initPopulation(n_pop, n_ell);
@@ -118,6 +89,12 @@ int main(int argc, char * argv[]) {
 
 		// Sort the population by fitness, with both population and fitness sorted in the same way
 		sortPopulationByFitness(population, fitness);
+
+		// Check termination
+		if (gen % 20 == 0) {
+			if (terminate(fitness))
+				break;
+		}
 
 		// Do selection
 		/* tournament selection with replacement */
@@ -154,13 +131,14 @@ int main(int argc, char * argv[]) {
 		}
 
 		// Record the best route in each generation
-		mini[gen] = saveMin(population, fitness);
+		// mini[gen] = saveMin(population, fitness);
+		mini.push_back(saveMin(population, fitness));
 
 		// Output the best route in each period of generations
-		if (gen % 20 == 0) {
-			cout << "Gen " << setw(3) << gen << ", ";
-			cout << "Fitness " << setw(5) << evaluateFitness(mini[gen], matrix, pType) << endl;
-		}
+		// if (gen % 20 == 0) {
+		// 	cout << "Gen " << setw(3) << gen << ", ";
+		// 	cout << "Fitness " << setw(5) << evaluateFitness(mini[gen], matrix, pType) << endl;
+		// }
 
 		selectionIndex.clear();
 		offspring.clear();
@@ -172,7 +150,7 @@ int main(int argc, char * argv[]) {
 	string outputFile = "./out/" + benchmark + "_route.txt";
 	ofstream out(outputFile, ios::out);
 
-	for (int i = 0; i < maxGen; i++) {
+	for (int i = 0; i < mini.size(); i++) {
 		finalFitness.push_back(evaluateFitness(mini[i], matrix, pType));
 	}
 

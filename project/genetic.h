@@ -21,31 +21,33 @@ enum class problemType {
     PFSP        // Permutation Flowshop Scheduling Problem
 };
 
+// Dataset
+vector<vector<double>> inTxt(string path);
 
-vector<vector<double>> inTxt(string path, int rows, int cols);
-// vector<vector<double>> inTxt(string path, int cityNb);
-// vector<vector<double>> inTxt(string path, int n_jobs, int n_machines);
-
-vector<vector<int>> initPopulation(int route, int nb);
-
-double evaluateFitness(vector<int> chromosome, vector<vector<double>> matrix, problemType pType);
-double evaluateFitness(vector<int> sroute, vector<vector<double>> length, int cityNb);
-double evaluateFitness(vector<int> flow, vector<vector<double>> processTime, int n_jobs, int n_machines);
-
+// Statistics
 vector<int> saveMin(vector<vector<int>> population, vector<double> fitness);
-
-
-
-/* Update for GA project */
 
 // Random number generator
 double uniform();
 int uniformInt(int a, int b);
 void uniformArray(int *array, int num, int a, int b);
 
+
+/******* GA mechanisms *******/
+// Initialization
+vector<vector<int>> initPopulation(int route, int nb);
+
+// Evaluation
+double evaluateFitness(vector<int> chromosome, vector<vector<double>> matrix, problemType pType);
+double evaluateFitness(vector<int> sroute, vector<vector<double>> length, int cityNb);
+double evaluateFitness(vector<int> flow, vector<vector<double>> processTime, int n_jobs, int n_machines);
+
 // Sorting by fitness
 bool compareChromosomes(const pair<vector<int>, double>& a, const pair<vector<int>, double>& b);
 void sortPopulationByFitness(vector<vector<int>>& population, vector<double>& fitness);
+
+// Termination
+bool terminate(vector<double> fitness);
 
 // Selection
 vector<int> tournamentSelection(const vector<double> & fitness,
@@ -80,7 +82,6 @@ void mutation(vector<vector<int>>& population, double pm, int n_ell);
 
 //     void crossover();
 //     void pairwiseXO (vector<int> & p1, vector<int> & p2, vector<int> & c1, vector<int> & c2);
-
 //     void mutation ();
 
 // protected:
@@ -92,7 +93,7 @@ void mutation(vector<vector<int>>& population, double pm, int n_ell);
 //     double pm;
 
 //     int generation;
-//     vector<vector<int>> distance;
+//     vector<vector<int>> matrix;
 //     vector<vector<int>> population;
 //     vector<int> fitness;
 // };
